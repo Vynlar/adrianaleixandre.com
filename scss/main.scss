@@ -1,7 +1,14 @@
+// Imports
 @import url('https://fonts.googleapis.com/css?family=Roboto:100,500,900');
 
+// Variables
 $colors: #CF4232, #EB7F23, #FAC023, #068675, #6B202E;
+$black: lighten(black, 15%);
+$sidebarWidth: 300px;
+$footerHeight: 45px;
+$gridSize: calc((100vh - #{$footerHeight}) / 6);
 
+// mixins
 @mixin randomColor {
   background: nth($colors, random(length($colors)));
 }
@@ -17,6 +24,31 @@ $randomIncrement: 0;
   $randomIncrement: $randomIncrement + 1 !global;
 }
 
+@mixin desktop() {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin fade-in-up($delay) {
+  filter: opacity(0);
+  animation: fade-in-up 1s $delay;
+  animation-fill-mode: forwards;
+}
+
+// Animations
+@keyframes fade-in-up {
+  from {
+    filter: opacity(0%);
+    transform: translateY(5px);
+  }
+  to {
+    filter: opacity(100%);
+  }
+}
+
+// baseline styles
+
 body {
   font-family: Roboto, sans-serif;
 }
@@ -25,19 +57,14 @@ html, body, .content {
   width: 100%;
   height: 100%;
   display: block;
+  overflow: hidden;
 }
 
-@mixin desktop() {
-  @media (min-width: 769px) {
-    @content;
-  }
-}
+// Content styles
 
 .content {
   display: grid;
   // Tablet
-  $footerHeight: 45px;
-  $gridSize: calc((100vh - #{$footerHeight}) / 6);
   grid-template-columns: repeat(5, 1fr) repeat(2, $gridSize);
   grid-template-rows: repeat(6, $gridSize) $footerHeight;
   grid-template-areas: ". . . . . portfolio portfolio"
@@ -64,9 +91,15 @@ html, body, .content {
 
   }
 
+  transition: transform 0.3s;
+
+  &.slid {
+    transform: translateX(-$sidebarWidth);
+  }
+
   .footer {
     grid-area: footer;
-    background: lighten(black, 15%);
+    background: $black;
   }
 
   .contact-button {
@@ -81,6 +114,7 @@ html, body, .content {
     justify-content: center;
     background: nth($colors, 4);
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.65);
+    @include fade-in-up(0.3s);
 
     $transitionTime: 0.1s;
     transition: box-shadow $transitionTime,
@@ -115,6 +149,7 @@ html, body, .content {
     font-size: 5vw;
     line-height: 1em;
     align-items: end;
+    @include fade-in-up(0s);
 
     span {
       font-weight: 900;
@@ -131,10 +166,12 @@ html, body, .content {
 
   .section-1 {
     grid-area: section-1;
+    @include fade-in-up(0.1s);
   }
 
   .section-2 {
     grid-area: section-2;
+    @include fade-in-up(0.2s);
   }
 
   .section {
@@ -151,6 +188,7 @@ html, body, .content {
   .icon-links {
     grid-area: icon-links;
     align-self: start;
+    @include fade-in-up(0.5s);
 
     i {
       font-size: 1.5rem;
@@ -180,23 +218,79 @@ html, body, .content {
                          "tile-10 tile-11";
 
     @for $i from 1 through 11 {
+      @keyframes portfolio-tile-#{$i} {
+        0% {
+          transform: translateX(calc(#{$gridSize} * 2));
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
       .tile-#{$i} {
         grid-area: tile-#{$i};
-        @include randomFadingColors;
+        opacity: 0;
+        @include randomColor;
+        transform: translateX(calc(#{$gridSize} * 2));
+        animation: portfolio-tile-#{$i} 0.3s (0.05s * $i);
+        animation-fill-mode: forwards;
+        //@include randomFadingColors;
       }
     }
 
     .tile {
-      transition: transform 0.1s;
+      transition: transform 0.1s, box-shadow 0.1s;
 
       &:hover {
-        transform: scale(1.1);
-
-        &:after {
-          content: "info";
-          background: rgba(0,0,0,0.7);
-        }
+        transform: scale(1.03);
+        box-shadow: 0 0 9px rgba(0,0,0,0.4);
+        filter: brightness(0.5);
       }
+    }
+  }
+}
+
+.sidebar {
+  height: 100vh;
+  width: $sidebarWidth;
+  position: absolute;
+  right: 0;
+  top: 0;
+  background: $black;
+  color: white;
+  font-weight: 200;
+  transition: transform 0.3s;
+  transform: translateX($sidebarWidth);
+
+  &.slid {
+    transform: translateX(0px);
+  }
+
+  &::before {
+    content: "";
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    top: calc((100vh - #{$footerHeight}) / 2);
+
+    $triangleSize: 30px;
+    left: -$triangleSize;
+    transform: translateY(-50%);
+    border-top: $triangleSize solid transparent;
+    border-bottom: $triangleSize solid transparent;
+    border-right: $triangleSize solid $black;
+  }
+
+  & > div {
+    padding: 2rem 1rem;
+
+    h3 {
+      margin: 0;
+      margin-bottom: 0.3em;
+      font-size: 2.5rem;
     }
   }
 }
