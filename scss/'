@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,500,900');
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 10fr;
+  grid-template-rows: 5fr;
+  grid-template-areas: ". . . . . . . . portfolio portfolio"
+                       ". . . . . section-1 . . portfolio portfolio"
+                       ". header header header . section-2 . . portfolio portfolio"
+                       ". . . . . . . . portfolio portfolio"
+                       ". learn-more . . . icon-links . . portfolio portfolio"
+                       ". . . . . . . . portfolio portfolio";
+}
+
+.learn-more {
+  grid-area: learn-more;
+}
+
+.header {
+  grid-area: header;
+  background: red;
+}
+
+.section-1 {
+  grid-area: section-1;
+}
+
+.section-1 {
+  grid-area: section-2;
+}
+
+.icon-links {
+  grid-area: icon-links;
+}
+
+.portfolio-title {
+  grid-area: portfolio-title;
+}
+
+.portfolio {
+  grid-area: portfolio;
+}

@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,500,900');
+
+$colors: #CF4232, #EB7F23, #FAC023, #068675, #6B202E;
+
+@mixin randomColor {
+  background: nth($colors, random(length($colors)));
+}
+
+$randomIncrement: 0;
+@mixin randomFadingColors {
+  @keyframes randomColors-#{$randomIncrement} {
+    0% { @include randomColor; }
+    50% { @include randomColor; }
+    100% { @include randomColor; }
+  }
+  animation: randomColors-#{$randomIncrement} 5s infinite alternate;
+  $randomIncrement: $randomIncrement + 1 !global;
+}
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+html, body, .content {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@mixin desktop() {
+  @media (min-width: 769px) {
+    @content;
+  }
+}
+
+.content {
+  display: grid;
+  // Tablet
+  $footerHeight: 45px;
+  $gridSize: calc((100vh - #{$footerHeight}) / 6);
+  grid-template-columns: repeat(5, 1fr) repeat(2, $gridSize);
+  grid-template-rows: repeat(6, $gridSize) $footerHeight;
+  grid-template-areas: ". . . . . portfolio portfolio"
+                       ". header header header portfolio-title portfolio portfolio"
+                       ". section-1 section-1 . portfolio-title portfolio portfolio"
+                       ". section-2 section-2 . . portfolio portfolio"
+                       ". contact-button contact-button . . portfolio portfolio"
+                       ". icon-links icon-links icon-links . portfolio portfolio"
+                       "footer footer footer footer footer footer footer";
+
+  // Desktop
+  @include desktop {
+    $footerHeight: 45px;
+    $gridSize: calc((100vh - #{$footerHeight}) / 6);
+    grid-template-columns: repeat(8, 1fr) repeat(2, $gridSize);
+    grid-template-rows: repeat(6, $gridSize) $footerHeight;
+    grid-template-areas: ". . . . . . . . portfolio portfolio"
+                         ". header header header . section-1 section-1 portfolio-title portfolio portfolio"
+                         ". . . . . section-2 section-2 portfolio-title portfolio portfolio"
+                         ". . . . . contact-button contact-button . portfolio portfolio"
+                         ". . . . . . . . portfolio portfolio"
+                         ". learn-more learn-more . . icon-links icon-links . portfolio portfolio"
+                         "footer footer footer footer footer footer footer footer footer footer";
+
+  }
+
+  .footer {
+    grid-area: footer;
+    background: lighten(black, 15%);
+  }
+
+  .contact-button {
+    grid-area: contact-button;
+    align-self: center;
+    height: 3.2em;;
+    width: 11em;
+    color: white;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: nth($colors, 4);
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.65);
+
+    $transitionTime: 0.1s;
+    transition: box-shadow $transitionTime,
+                transform $transitionTime;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 5px rgba(0, 0, 0, 0.65);
+    }
+  }
+
+  .learn-more {
+    grid-area: learn-more;
+    font-weight: 500;
+    transform: translateY(7px);
+    display: none;
+
+    @include desktop {
+      display: block;
+    }
+
+    span {
+      position: relative;
+    }
+  }
+
+  .header {
+    grid-area: header;
+    width: 100%;
+    height: 100%;
+    font-weight: 100;
+    font-size: 5vw;
+    line-height: 1em;
+    align-items: end;
+
+    span {
+      font-weight: 900;
+      font-size: 6vw;
+    }
+
+    h4 {
+      font-weight: 900;
+      font-size: 1vw;
+      margin: 0;
+      line-height: 1em;
+    }
+  }
+
+  .section-1 {
+    grid-area: section-1;
+  }
+
+  .section-2 {
+    grid-area: section-2;
+  }
+
+  .section {
+    font-size: 1vw;
+    font-weight: 100;
+
+    h3 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 3vw;
+    }
+  }
+
+  .icon-links {
+    grid-area: icon-links;
+    align-self: start;
+
+    i {
+      font-size: 1.5rem;
+      margin-right: 0.35em;
+    }
+  }
+
+  .portfolio-title {
+    grid-area: portfolio-title;
+    transform: rotate(90deg);
+    font-size: calc(#{$gridSize} / 1.95);
+    margin: 0;
+    //font-size: 4.2vw;
+    font-weight: 900;
+  }
+
+  .portfolio {
+    grid-area: portfolio;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas: "tile-1 tile-2"
+                         "tile-3 tile-4"
+                         "tile-5 tile-6"
+                         "tile-7 tile-8"
+                         ". tile-9"
+                         "tile-10 tile-11";
+
+    @for $i from 1 through 11 {
+      .tile-#{$i} {
+        grid-area: tile-#{$i};
+        @include randomFadingColors;
+      }
+    }
+
+    .tile {
+      transition: transform 0.1s;
+
+      &:hover {
+        transform: scale(1.1);
+
+        &:after {
+          content: "info";
+          background: rgba(0,0,0,0.7);
+        }
+      }
+    }
+  }
+}

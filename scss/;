@@ -1,0 +1,148 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,500,900');
+
+body {
+  font-family: Roboto, sans-serif;
+}
+
+html, body, .content {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+$footerHeight: 45px;
+$gridSize: calc((100vh - #{$footerHeight}) / 6);
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr) repeat(2, $gridSize);
+  grid-template-rows: repeat(6, $gridSize) $footerHeight;
+  grid-template-areas: ". . . . . . . . portfolio portfolio"
+                       ". . . . . . . . portfolio portfolio"
+                       ". header header header . section-1 section-1 . portfolio portfolio"
+                       ". . . . . section-2 section-2 . portfolio portfolio"
+                       ". learn-more . . . icon-links . . portfolio portfolio"
+                       ". . . . . . . . portfolio portfolio"
+                       "footer footer footer footer footer footer footer footer footer footer";
+
+  .footer {
+    grid-area: footer;
+    background: lighten(black, 15%);
+  }
+
+  .learn-more {
+    grid-area: learn-more;
+    align-self: end;
+    font-weight: 500;
+  }
+
+  .header {
+    grid-area: header;
+    width: 100%;
+    height: 100%;
+    font-weight: 100;
+    font-size: 6rem;
+    line-height: 1.1em;
+    align-items: end;
+
+    span {
+      font-weight: 900;
+      font-size: 8rem;
+    }
+  }
+
+  .section-1 {
+    grid-area: section-1;
+  }
+
+  .section-2 {
+    grid-area: section-2;
+  }
+
+  .section {
+    font-size: 1rem;
+    font-weight: 100;
+
+    h3 {
+      margin: 0;
+      font-weight: 900;
+      font-size: 3.2rem;
+    }
+  }
+
+  .icon-links {
+    grid-area: icon-links;
+    align-self: end;
+
+    i {
+      font-size: 1.5em;
+      margin-right: 0.5em;
+    }
+  }
+
+  .portfolio-title {
+    grid-area: portfolio-title;
+    background: green;
+  }
+
+  .portfolio {
+    grid-area: portfolio;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    grid-template-areas: "one two"
+                         "three four"
+                         "five six"
+                         "seven eight"
+                         ". nine"
+                         "ten eleven";
+
+    .tile {
+    }
+
+    .one {
+      grid-area: one;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .two {
+      grid-area: two;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .three {
+      grid-area: three;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .four {
+      grid-area: four;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .five {
+      grid-area: five;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .six {
+      grid-area: six;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .seven {
+      grid-area: seven;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .eight {
+      grid-area: eight;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .nine {
+      grid-area: nine;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .ten {
+      grid-area: ten;
+      background: rgb(random(255), random(255), random(255));
+    }
+    .eleven {
+      grid-area: eleven;
+      background: rgb(random(255), random(255), random(255));
+    }
+  }
+}
