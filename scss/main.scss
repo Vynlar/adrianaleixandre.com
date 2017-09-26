@@ -60,6 +60,31 @@ html, body, .content {
   overflow: hidden;
 }
 
+// General styles
+a {
+  position: relative;
+  text-decoration: none;
+  border-bottom: 1px solid nth($colors, 4);
+  &:link {
+    color: nth($colors, 4);
+  }
+  &:link {
+    color: darken(nth($colors, 4), 10%);
+  }
+  $boardSize: 10px;
+  &:hover::after {
+    content: "";
+    display: block;
+    position: absolute;
+    border-radius: $boardSize;
+    top: -$boardSize/2 + 2px;
+    bottom: -$boardSize/2 - 1px;
+    left: -$boardSize/3;
+    right: -$boardSize/3;
+    background: rgba(0,50,100,0.05);
+  }
+}
+
 // Content styles
 
 .content {
