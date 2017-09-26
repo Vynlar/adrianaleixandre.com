@@ -58,7 +58,6 @@ jobs:
           name: Deploy adrian_web to docker-master-1
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              ssh -oStrictHostKeyChecking=no root@163.172.164.113
-              docker stop adrian_web
-              docker run -d --rm --name adrian_web -p 3001:80 vynlar/adrian_web:${CIRCLE_SHA1}
+              ssh -oStrictHostKeyChecking=no root@163.172.164.113 "docker stop adrian_web"
+              ssh -oStrictHostKeyChecking=no root@163.172.164.113 " docker run -d --rm --name adrian_web -p 3001:80 vynlar/adrian_web:${CIRCLE_SHA1}"
             fi
