@@ -56,7 +56,7 @@ jobs:
           name: Deploy adrian_web to docker-master-1
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              export DOCKER_HOST=163.172.164.113 
+              export DOCKER_HOST=tcp://163.172.164.113:2376
               docker stop adrian_web
               docker run -d --rm --name adrian_web -p 3001:80 vynlar/adrian_web:${CIRCLE_SHA1}
             fi
