@@ -4,7 +4,6 @@ WORKDIR /opt/adrian
 ADD . .
 
 RUN npm install
-RUN npm rebuild node-sass --force
 RUN npm run build
 
 FROM nginx
