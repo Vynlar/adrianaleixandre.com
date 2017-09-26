@@ -50,7 +50,7 @@ jobs:
 
       - run: yarn run build
       - run: docker build -t vynlar/adrian_web:${CIRCLE_SHA1} .
-      - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - run: docker push vynlar/adrian_web:$CIRCLE_SHA1
 
 
