@@ -35,18 +35,21 @@ jobs:
 
       - run: yarn install
 
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-npm-dependencies-{{ checksum "package.json" }}
+
+      - run: ./node_modules/.bin/elm-package install -y
+
+      - save_cache:
+          paths:
+            - elm-stuff
+          key: v1-elm-dependencies-{{ checksum "elm-package.json" }}
 
       - run: yarn run build
       - run: docker build -t vynlar/adrian_web:${CIRCLE_SHA1} .
       - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - run: docker push vynlar/adrian_web:$CIRCLE_SHA1
 
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-npm-dependencies-{{ checksum "package.json" }}
 
-      - save_cache:
-          paths:
-            - elm-stuff
-          key: v1-elm-dependencies-{{ checksum "elm-package.json" }}
