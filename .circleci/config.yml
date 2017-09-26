@@ -23,16 +23,22 @@ jobs:
       # Download and cache dependencies
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "package.json" }}
+          - npm-dependencies-{{ checksum "package.json" }}
+          - elm-dependencies-{{ checksum "elm-package.json" }}
           # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+          - npm-dependencies-
 
       - run: yarn install
 
       - save_cache:
           paths:
             - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
+          key: npm-dependencies-{{ checksum "package.json" }}
+
+      - save_cache:
+          paths:
+            - elm-stuff
+          key: elm-dependencies-{{ checksum "elm-package.json" }}
 
       - run: yarn run build
       - run: docker build -t vynlar/adrian_web:${CIRCLE_SHA1} .
