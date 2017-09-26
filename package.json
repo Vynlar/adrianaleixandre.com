@@ -9,7 +9,7 @@
         "build-css": "node-sass --include-path scss scss/main.scss public/css/main.css",
         "watch-css": "nodemon -e scss -x \"npm run build-css\"",
         "dev": "elm-live elm/Main.elm --output=public/elm.js --open --dir=public",
-        "build-elm": "elm-make elm/Main.elm --output=public/elm.js",
+        "build-elm": "elm-make elm/Main.elm --yes --output=public/elm.js",
         "build": "npm run build-elm && npm run build-css"
     },
     "author": "",
