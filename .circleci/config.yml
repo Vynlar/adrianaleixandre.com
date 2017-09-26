@@ -30,6 +30,12 @@ jobs:
 
       - run: yarn install
 
+
+      - run: yarn run build
+      - run: docker build -t vynlar/adrian_web:${CIRCLE_SHA1} .
+      - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run: docker push vynlar/adrian_web:$CIRCLE_SHA1
+
       - save_cache:
           paths:
             - node_modules
@@ -39,8 +45,3 @@ jobs:
           paths:
             - elm-stuff
           key: elm-dependencies-{{ checksum "elm-package.json" }}
-
-      - run: yarn run build
-      - run: docker build -t vynlar/adrian_web:${CIRCLE_SHA1} .
-      - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - run: docker push vynlar/adrian_web:$CIRCLE_SHA1
