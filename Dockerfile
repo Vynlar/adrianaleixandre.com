@@ -1,11 +1,11 @@
-FROM node:alpine as builder
+FROM node as builder
 
 WORKDIR /opt/adrian
 ADD . .
 
 RUN npm install
 RUN npm rebuild node-sass --force
-RUN npm run build-css
+RUN npm run build
 
 FROM nginx
 WORKDIR /usr/share/nginx/html

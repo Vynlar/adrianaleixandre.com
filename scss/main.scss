@@ -138,16 +138,22 @@ a {
     align-items: center;
     justify-content: center;
     background: nth($colors, 4);
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.65);
+    cursor: pointer;
     @include fade-in-up(0.3s);
+    user-select: none;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
 
     $transitionTime: 0.1s;
-    transition: box-shadow $transitionTime,
-                transform $transitionTime;
+    transition: transform $transitionTime;
 
     &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 5px rgba(0, 0, 0, 0.65);
+      transform: scale(1.02);
+      background: lighten(nth($colors, 4), 8%);
+    }
+
+    &:active {
+      transform: scale(0.98);
+      background: darken(nth($colors, 4), 8%);
     }
   }
 
@@ -163,6 +169,16 @@ a {
 
     span {
       position: relative;
+      cursor: pointer;
+
+      i {
+        transition: transform 0.3s;
+        transform: translate(0, 1.5px);
+      }
+
+      &:hover i {
+        transform: translate(5px, 1.5px);
+      }
     }
   }
 
@@ -204,8 +220,9 @@ a {
     font-weight: 100;
 
     h3 {
+      transform: translateX(-2px);
       margin: 0;
-      font-weight: 900;
+      font-weight: 500;
       font-size: 3vw;
     }
   }
@@ -232,6 +249,11 @@ a {
 
   .portfolio {
     grid-area: portfolio;
+  }
+
+  .tiles {
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(6, 1fr);
@@ -241,6 +263,29 @@ a {
                          "tile-7 tile-8"
                          ". tile-9"
                          "tile-10 tile-11";
+
+//   @for $i from 1 through 11 {
+//     @keyframes portfolio-tile-#{$i} {
+//       0% {
+//         transform: translateX(calc(#{$gridSize} * 2));
+//         opacity: 0;
+//       }
+//       100% {
+//         transform: translateX(0);
+//         opacity: 1;
+//       }
+//     }
+//
+//     .tile-#{$i} {
+//       grid-area: tile-#{$i};
+//       opacity: 0;
+//       @include randomColor;
+//       transform: translateX(calc(#{$gridSize} * 2));
+//       animation: portfolio-tile-#{$i} 0.3s (0.05s * $i);
+//       animation-fill-mode: forwards;
+//       //@include randomFadingColors;
+//     }
+//   }
 
     @for $i from 1 through 11 {
       @keyframes portfolio-tile-#{$i} {
@@ -257,22 +302,30 @@ a {
       .tile-#{$i} {
         grid-area: tile-#{$i};
         opacity: 0;
-        @include randomColor;
         transform: translateX(calc(#{$gridSize} * 2));
         animation: portfolio-tile-#{$i} 0.3s (0.05s * $i);
         animation-fill-mode: forwards;
-        //@include randomFadingColors;
       }
+    }
+
+    .yellow {
+      background: nth($colors, 3);
+    }
+
+    .red {
+      background: nth($colors, 1);
+    }
+
+    .blue {
+      background: nth($colors, 4);
+    }
+
+    .hovered {
+      filter: saturate(120%) brightness(80%);
     }
 
     .tile {
       transition: transform 0.1s, box-shadow 0.1s;
-
-      &:hover {
-        transform: scale(1.03);
-        box-shadow: 0 0 9px rgba(0,0,0,0.4);
-        filter: brightness(0.5);
-      }
     }
   }
 }

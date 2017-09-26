@@ -5,13 +5,20 @@
     "main": "index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
+        "deploy": "./deploy.sh",
         "build-css": "node-sass --include-path scss scss/main.scss public/css/main.css",
-        "watch-css": "nodemon -e scss -x \"npm run build-css\""
+        "watch-css": "nodemon -e scss -x \"npm run build-css\"",
+        "dev": "elm-live elm/Main.elm --output=public/elm.js --open --dir=public",
+        "build-elm": "elm-make elm/Main.elm --output=public/elm.js",
+        "build": "npm run build-elm && npm run build-css"
     },
     "author": "",
     "license": "ISC",
     "dependencies": {
         "node-sass": "^4.5.3",
         "nodemon": "^1.12.1"
+    },
+    "devDependencies": {
+        "elm": "^0.18.0"
     }
 }
