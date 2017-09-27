@@ -156,6 +156,17 @@ a {
     grid-area: footer;
     background: $black;
     margin: -$pagePadding;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding-right: 2em;
+    justify-content: flex-end;
+    font-weight: 100;
+
+    i {
+      margin-left: 0.3em;
+      color: pink;
+    }
 
     @include tablet {
       margin: 0;
@@ -306,6 +317,11 @@ a {
 
     @include tablet {
       align-self: start;
+    }
+
+    a {
+      border: none;
+      color: black;
     }
 
     i {
