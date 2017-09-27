@@ -94,8 +94,8 @@ a {
   grid-template-rows: repeat(6, $gridSize) $footerHeight;
   grid-template-areas: ". . . . . portfolio portfolio"
                        ". header header header portfolio-title portfolio portfolio"
-                       ". section-1 section-1 . portfolio-title portfolio portfolio"
-                       ". section-2 section-2 . . portfolio portfolio"
+                       ". section-1 section-1 section-1 portfolio-title portfolio portfolio"
+                       ". section-2 section-2 section-2 . portfolio portfolio"
                        ". contact-button contact-button . . portfolio portfolio"
                        ". icon-links icon-links icon-links . portfolio portfolio"
                        "footer footer footer footer footer footer footer";
@@ -216,7 +216,7 @@ a {
   }
 
   .section {
-    font-size: 1vw;
+    font-size: 16px;
     font-weight: 100;
 
     h3 {
@@ -240,11 +240,18 @@ a {
 
   .portfolio-title {
     grid-area: portfolio-title;
-    transform: rotate(90deg);
-    font-size: calc(#{$gridSize} / 1.95);
     margin: 0;
-    //font-size: 4.2vw;
-    font-weight: 900;
+    position: relative;
+
+    span {
+      font-size: calc(#{$gridSize} / 1.95);
+      transform-origin: 0% 0% 0;
+      transform: rotate(90deg);
+      position: absolute;
+      top: 0;
+      left: 100%;
+      font-weight: 900;
+    }
   }
 
   .portfolio {
