@@ -188,21 +188,32 @@ a {
     width: 100%;
     height: 100%;
     font-weight: 100;
-    font-size: 5vw;
+    font-size: 6vw;
     line-height: 1em;
     align-items: end;
     @include fade-in-up(0s);
 
+    @include desktop {
+      font-size: 5vw;
+    }
+
     span {
       font-weight: 900;
-      font-size: 6vw;
+      font-size: 8vw;
+      @include desktop {
+        font-size: 6vw;
+      }
     }
 
     h4 {
       font-weight: 900;
-      font-size: 1vw;
+      font-size: 2vw;
       margin: 0;
       line-height: 1em;
+
+      @include desktop {
+        font-size: 6vw;
+      }
     }
   }
 
