@@ -7,6 +7,7 @@ $black: lighten(black, 15%);
 $sidebarWidth: 300px;
 $footerHeight: 45px;
 $gridSize: calc((100vh - #{$footerHeight}) / 6);
+$pagePadding: 1rem;
 
 // mixins
 @mixin randomColor {
@@ -26,6 +27,12 @@ $randomIncrement: 0;
 
 @mixin desktop() {
   @media (min-width: 769px) {
+    @content;
+  }
+}
+
+@mixin tablet() {
+  @media (min-width: 426px) {
     @content;
   }
 }
@@ -55,9 +62,17 @@ body {
 
 html, body, .content {
   width: 100%;
-  height: 100%;
-  display: block;
-  overflow: hidden;
+  border-top: 4px solid nth($colors, 3);
+
+  @include tablet {
+    border-top: none;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+*, *::before, *::after {
+               box-sizing: border-box;
 }
 
 // General styles
@@ -89,18 +104,33 @@ a {
 
 .content {
   display: grid;
-  // Tablet
-  grid-template-columns: repeat(5, 1fr) repeat(2, $gridSize);
-  grid-template-rows: repeat(6, $gridSize) $footerHeight;
-  grid-template-areas: ". . . . . portfolio portfolio"
-                       ". header header header portfolio-title portfolio portfolio"
-                       ". section-1 section-1 section-1 portfolio-title portfolio portfolio"
-                       ". section-2 section-2 section-2 . portfolio portfolio"
-                       ". contact-button contact-button . . portfolio portfolio"
-                       ". icon-links icon-links icon-links . portfolio portfolio"
-                       "footer footer footer footer footer footer footer";
 
-  // Desktop
+  padding: $pagePadding;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(6, auto) $footerHeight;
+  grid-template-areas: "header header"
+                       "section-1 section-1"
+                       "section-2 section-2"
+                       "contact-button icon-links"
+                       "portfolio-title portfolio-title"
+                       "portfolio portfolio"
+                       "footer footer" ;
+
+  @include tablet {
+    padding: 0;
+    $footerHeight: 45px;
+    $gridSize: calc((100vh - #{$footerHeight}) / 6);
+    grid-template-columns: repeat(5, 1fr) repeat(2, $gridSize);
+    grid-template-rows: repeat(6, $gridSize) $footerHeight;
+    grid-template-areas: ". . . . . portfolio portfolio"
+                        ". header header header portfolio-title portfolio portfolio"
+                        ". section-1 section-1 section-1 portfolio-title portfolio portfolio"
+                        ". section-2 section-2 section-2 . portfolio portfolio"
+                        ". contact-button contact-button . . portfolio portfolio"
+                        ". icon-links icon-links icon-links . portfolio portfolio"
+                        "footer footer footer footer footer footer footer";
+  }
+
   @include desktop {
     $footerHeight: 45px;
     $gridSize: calc((100vh - #{$footerHeight}) / 6);
@@ -125,12 +155,17 @@ a {
   .footer {
     grid-area: footer;
     background: $black;
+    margin: -$pagePadding;
+
+    @include tablet {
+      margin: 0;
+    }
   }
 
   .contact-button {
     grid-area: contact-button;
     align-self: center;
-    margin-top: 1rem;
+    margin: 1rem 0;
     height: 3.2em;;
     width: 11em;
     color: white;
@@ -188,18 +223,28 @@ a {
     width: 100%;
     height: 100%;
     font-weight: 100;
-    font-size: 6vw;
     line-height: 1em;
     align-items: end;
+    font-size: 10vw;
+    margin-top: 1.5em;
+    margin-bottom: 1em;
     @include fade-in-up(0s);
 
+    @include tablet {
+      margin: auto;
+      font-size: 6vw;
+    }
     @include desktop {
       font-size: 5vw;
     }
 
     span {
       font-weight: 900;
-      font-size: 8vw;
+      font-size: 14vw;
+
+      @include tablet {
+        font-size: 8vw;
+      }
       @include desktop {
         font-size: 6vw;
       }
@@ -207,10 +252,13 @@ a {
 
     h4 {
       font-weight: 900;
-      font-size: 2vw;
+      font-size: 3.5vw;
       margin: 0;
       line-height: 1em;
 
+      @include tablet {
+        font-size: 2vw;
+      }
       @include desktop {
         font-size: 1vw;
       }
@@ -228,9 +276,14 @@ a {
   }
 
   .section {
-    font-size: 2vw;
+    font-size: 4vw;
     font-weight: 100;
+    margin: 1em 0;
 
+    @include tablet {
+      margin: auto;
+      font-size: 2vw;
+    }
     @include desktop {
       font-size: 1.2vw;
     }
@@ -239,14 +292,21 @@ a {
       transform: translateX(-2px);
       margin: 0;
       font-weight: 500;
-      font-size: 3vw;
+      font-size: 8vw;
+      @include tablet {
+        font-size: 3vw;
+      }
     }
   }
 
   .icon-links {
     grid-area: icon-links;
-    align-self: start;
+    align-self: center;
     @include fade-in-up(0.5s);
+
+    @include tablet {
+      align-self: start;
+    }
 
     i {
       font-size: 1.5rem;
@@ -258,20 +318,34 @@ a {
     grid-area: portfolio-title;
     margin: 0;
     position: relative;
+    margin: 2em 0 1.5em 0;
+
+    @include tablet {
+      margin: 0;
+    }
 
     span {
       font-size: calc(#{$gridSize} / 1.95);
-      transform-origin: 0% 0% 0;
-      transform: rotate(90deg);
-      position: absolute;
-      top: 0;
-      left: 100%;
       font-weight: 900;
+      @include tablet {
+        transform-origin: 0% 0% 0;
+        transform: rotate(90deg);
+        position: absolute;
+        top: 0;
+        left: 100%;
+      }
     }
   }
 
   .portfolio {
     grid-area: portfolio;
+    height: calc(100vw / 2 * 6);
+    margin: 0 -$pagePadding;
+
+    @include tablet {
+      height: auto;
+      margin: 0;
+    }
   }
 
   .tiles {
